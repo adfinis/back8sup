@@ -2,8 +2,13 @@
 
 A simple way to backup your kubernetes resources
 
+## Why?
 
-## Deployment w/ HELM v3.x
+In some cases, using Velero with an S3 storage provider is an overkill. 
+
+This script keeps things very basic and simple, and makes it easy to backup your Kubernetes metadata quickly by using your default StorageClass.
+
+## Deployment with Helm
 
 ```
 helm repo add adfinis https://charts.adfinis.com
