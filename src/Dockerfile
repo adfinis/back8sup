@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL maintainer="Antonio Tauro <toni.tauro@adfinis.com>"
+LABEL org.opencontainers.image.authors="Antonio Tauro <toni.tauro@adfinis.com>"
 
 ADD back8sup.sh /
 
