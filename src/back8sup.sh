@@ -34,22 +34,22 @@ readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 
 # check if binaries are available
 
-if ! [ -x "$(command -v kubectl)" ]
+if ! command -v kubectl >/dev/null
 then 
   echo "$(date "+%FT%H:%M:%S") ERROR kubectl not found in \$PATH" 
   exit 1
 fi
-if ! [ -x "$(command -v yq)" ]
+if ! command -v yq >/dev/null
 then
   echo "$(date "+%FT%H:%M:%S") ERROR yq not found in \$PATH" 
   exit 1
 fi
-if ! [ -x "$(command -v jq)" ]
+if ! command -v jq >/dev/null
 then
   echo "$(date "+%FT%H:%M:%S") ERROR jq not found in \$PATH"
   exit 1
 fi
-if ! [ -x "$(command -v yamllint)" ]
+if ! command -v yamllint >/dev/null
 then 
   echo "$(date "+%FT%H:%M:%S") ERROR yamllint not found in \$PATH" 
   exit 1
