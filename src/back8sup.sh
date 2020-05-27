@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 #
-# back8sup - backup your k8s api resources easily on a PV of your choice
+# back8sup - backup your k8s api resources easily to a PV of your choice
 #
 # Copyright (C) 2020 Adfinis AG
 #
