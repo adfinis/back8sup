@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 #
-# back8sup - backup your k8s api resources easily on a PV of your choice
+# back8sup - backup your k8s api resources easily to a PV of your choice
 #
 # Copyright (C) 2020 Adfinis AG
 #
@@ -39,6 +39,7 @@ log(){
   NOW=$(date "+%FT%H:%M:%S")
   echo $NOW $@
 }
+
 # check if binaries are available
 
 for BIN in $BINARIES
@@ -114,7 +115,7 @@ log "INFO done with global export"
 
 for NS in $NAMESPACES
 do
-  log "INFO staring export in namespace $NS"
+  log "INFO starting export in namespace $NS"
   # shellcheck disable=SC2016
   NSKINDS=$(yq -r --arg ns "$NS" '.namespaces[]|select(.name == $ns)|.kind[]' "$CONFIGMAP_PATH")
   for KIND in $NSKINDS
