@@ -1,0 +1,11 @@
+global:
+  - cm
+  - pvc
+  - pv
+namespaces:
+  - name: default
+    kind:
+      - deployment
+  - name: infra-backup
+    kind:
+      - deployment
