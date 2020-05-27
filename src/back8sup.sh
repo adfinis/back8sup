@@ -37,15 +37,15 @@ readonly BINARIES="kubectl yq jq yamllint"
 
 log(){
   NOW=$(date "+%FT%H:%M:%S")
-  echo $NOW $@
+  echo "$NOW" "$@"
 }
 
 # check if binaries are available
 
 for BIN in $BINARIES
 do
-  if ! command -v $BIN >/dev/null
-  then 
+  if ! command -v "$BIN" >/dev/null
+  then
     log "ERROR $BIN not found in \$PATH"
     exit 1
   fi
@@ -65,7 +65,7 @@ fi
 # check TOKEN_FILE and connection
 
 if [ ! -r "$TOKEN_FILE" ]
-then 
+then
   log "ERROR $TOKEN_FILE not readable"
   exit 1
 fi
@@ -74,7 +74,7 @@ TOKEN=$(cat "$TOKEN_FILE")
 
 log "INFO checking token and connection to cluster"
 if ! curl -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
-then 
+then
   log "ERROR couldn't reach the API endpoint."
   exit 1
 fi
@@ -94,7 +94,7 @@ log "INFO $CONFIGMAP_PATH parsed"
 # first get all global stuff
 
 log "INFO starting with global export"
-for KIND in $GLOBAL 
+for KIND in $GLOBAL
 do
   log "INFO starting export for all $KIND"
   kubectl get ns -oname | cut -d/ -f2 | while read -r NS
