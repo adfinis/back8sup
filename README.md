@@ -11,7 +11,7 @@ helm install back8sup adfinis/back8sup
 ```
 ## Configuration
 
-Configuration is done via environment variables inside the container and an additional configmap
+Back8sup is configured via environment variables inside the container and an additional configmap.
 
 
 ### Environment variables
