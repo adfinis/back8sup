@@ -25,12 +25,12 @@
 
 # Environment variables for configuration
 
-API_ENDPOINT=${API_ENDPOINT:-https://kubernetes.local:6443}
-CA_CERT=${CA_CERT:-/etc/ssl/ca.crt}
-TOKEN_FILE=${TOKEN_FILE:-/var/run/secrets/sa}
-DST_FOLDER=${DST_FOLDER:-/mnt/back8sup}
-CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
-EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
+readonly API_ENDPOINT=${API_ENDPOINT:-https://kubernetes.local:6443}
+readonly CA_CERT=${CA_CERT:-/etc/ssl/ca.crt}
+readonly TOKEN_FILE=${TOKEN_FILE:-/var/run/secrets/sa}
+readonly DST_FOLDER=${DST_FOLDER:-/mnt/back8sup}
+readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
+readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 
 # check if binaries are available
 
