@@ -33,13 +33,19 @@ readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 readonly BINARIES="kubectl yq jq yamllint"
 
+# define log function
+
+log(){
+  NOW=$(date "+%FT%H:%M:%S")
+  echo $NOW $@
+}
 # check if binaries are available
 
 for BIN in $BINARIES
 do
   if ! command -v $BIN >/dev/null
     then 
-    echo "$(date "+%FT%H:%M:%S") ERROR $BIN not found in \$PATH" 
+    log "ERROR $BIN not found in \$PATH"
     exit 1
   fi
 done
@@ -48,10 +54,10 @@ done
 
 DATE=$(date "+%Y%m%d%H%M")
 DST="$DST_FOLDER/$DATE"
-echo "$(date "+%FT%H:%M:%S") INFO creating directory $DST for export"
+log "INFO creating directory $DST for export"
 if ! mkdir -p "$DST"
 then
-  echo "$(date "+%FT%H:%M:%S") ERROR could not create $DST"
+  log "ERROR could not create $DST"
   exit 1
 fi
 
@@ -59,16 +65,16 @@ fi
 
 if [ ! -r "$TOKEN_FILE" ]
   then 
-    echo "$(date "+%FT%H:%M:%S") ERROR $TOKEN_FILE not readable"
+    log "ERROR $TOKEN_FILE not readable"
     exit 1
   fi
 
 TOKEN=$(cat "$TOKEN_FILE")
 
-echo "$(date "+%FT%H:%M:%S") INFO checking token and connection to cluster"
+log "INFO checking token and connection to cluster"
 if ! curl -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
   then 
-    echo "$(date "+%FT%H:%M:%S") ERROR couldn't reach the API endpoint."
+    log "ERROR couldn't reach the API endpoint."
     exit 1
 fi
 
@@ -76,51 +82,51 @@ fi
 
 if ! yamllint --no-warnings "$CONFIGMAP_PATH"
 then
-  echo "$(date "+%FT%H:%M:%S") ERROR yamllint unsuccessful" 
+  log "ERROR yamllint unsuccessful" 
   exit 1
 fi
-echo "$(date "+%FT%H:%M:%S") INFO parsing $CONFIGMAP_PATH"
+log "INFO parsing $CONFIGMAP_PATH"
 GLOBAL=$(yq -r '.global[]' "$CONFIGMAP_PATH")
 NAMESPACES=$(yq -r '.namespaces[].name' "$CONFIGMAP_PATH")
-echo "$(date "+%FT%H:%M:%S") INFO $CONFIGMAP_PATH parsed"
+log "INFO $CONFIGMAP_PATH parsed"
 
 # first get all global stuff
 
-echo "$(date "+%FT%H:%M:%S") INFO starting with global export"
+log "INFO starting with global export"
 for KIND in $GLOBAL 
 do
-  echo "$(date "+%FT%H:%M:%S") INFO starting export for all $KIND"
+  log "INFO starting export for all $KIND"
   kubectl get ns -oname | cut -d/ -f2 | while read -r NS
   do
     mkdir -p "$DST/$NS"
     for ITEM in $(kubectl get "$KIND" -n "$NS" -oname)
     do 
-      echo "$(date "+%FT%H:%M:%S") INFO exporting $ITEM from namespace $NS into $DST/$NS/$KIND"
+      log "INFO exporting $ITEM from namespace $NS into $DST/$NS/$KIND"
       mkdir -p "$DST/$NS/$KIND"
       kubectl get "$ITEM" -n "$NS" -o "$EXPORT_FORMAT" > "$DST/$NS/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
     done
   done
-  echo "$(date "+%FT%H:%M:%S") INFO done exporting all $KIND"
+  log "INFO done exporting all $KIND"
 done
-echo "$(date "+%FT%H:%M:%S") INFO done with global export"
+log "INFO done with global export"
 
 # now all namespaces stuff
 
 for NS in $NAMESPACES
 do
-  echo "$(date "+%FT%H:%M:%S") INFO staring export in namespace $NS"
+  log "INFO staring export in namespace $NS"
   # shellcheck disable=SC2016
   NSKINDS=$(yq -r --arg ns "$NS" '.namespaces[]|select(.name == $ns)|.kind[]' "$CONFIGMAP_PATH")
   for KIND in $NSKINDS
   do
-    echo "$(date "+%FT%H:%M:%S") INFO starting export for all $KIND in namespace $NS"
+    log "INFO starting export for all $KIND in namespace $NS"
     for ITEM in $(kubectl get "$KIND" -n "$NS" -oname)
     do
-      echo "$(date "+%FT%H:%M:%S") INFO exporting $ITEM from namespace $NS into $DST/$NS/$KIND"
+      log "INFO exporting $ITEM from namespace $NS into $DST/$NS/$KIND"
       mkdir -p "$DST/$NS/$KIND"
       kubectl get "$ITEM" -n "$NS" -o "$EXPORT_FORMAT" > "$DST/$NS/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
     done
   done
-  echo "$(date "+%FT%H:%M:%S") INFO done exporting all $KIND in namespace $NS"
+  log "INFO done exporting all $KIND in namespace $NS"
 done
-echo "$(date "+%FT%H:%M:%S") INFO done exporting namespace $NS"
+log "INFO done exporting namespace $NS"
