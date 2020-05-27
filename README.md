@@ -25,7 +25,7 @@ CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 ```
 
-### ConfigMap
+### ConfigMap (managed by Helm)
 
 ```
 global: ['cm', 'pvc', 'pv'] # global resources to export over all namespaces
