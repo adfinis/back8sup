@@ -34,7 +34,7 @@ EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 
 The configmap is managed by helm and configured in the `values.yaml` file.
 
-Example configuration (see `src/config.sample.yaml`)
+Example configuration (see [`src/config.sample.yaml`](src/config.sample.yaml))
 
 ```
 global: ['cm', 'pvc', 'pv'] # global resources to export over all namespaces
