@@ -6,7 +6,8 @@ A simple way to backup your kubernetes resources
 ## Deployment w/ HELM v3.x
 
 ```
-helm install back8sup charts/back8sup
+helm repo add adfinis https://charts.adfinis.com
+helm install back8sup adfinis/back8sup
 ```
 ## Configuration
 
