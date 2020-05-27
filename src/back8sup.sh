@@ -115,7 +115,7 @@ log "INFO done with global export"
 
 for NS in $NAMESPACES
 do
-  log "INFO staring export in namespace $NS"
+  log "INFO starting export in namespace $NS"
   # shellcheck disable=SC2016
   NSKINDS=$(yq -r --arg ns "$NS" '.namespaces[]|select(.name == $ns)|.kind[]' "$CONFIGMAP_PATH")
   for KIND in $NSKINDS
