@@ -31,10 +31,9 @@ readonly TOKEN_FILE=${TOKEN_FILE:-/var/run/secrets/sa}
 readonly DST_FOLDER=${DST_FOLDER:-/mnt/back8sup}
 readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
+readonly BINARIES="kubectl yq jq yamllint"
 
 # check if binaries are available
-
-BINARIES="kubectl yq jq yamllint"
 
 for BIN in $BINARIES
 do
