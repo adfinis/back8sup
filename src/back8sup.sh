@@ -39,6 +39,7 @@ log(){
   NOW=$(date "+%FT%H:%M:%S")
   echo $NOW $@
 }
+
 # check if binaries are available
 
 for BIN in $BINARIES
