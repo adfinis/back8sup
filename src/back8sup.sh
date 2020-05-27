@@ -44,7 +44,7 @@ log(){
 for BIN in $BINARIES
 do
   if ! command -v $BIN >/dev/null
-    then 
+  then 
     log "ERROR $BIN not found in \$PATH"
     exit 1
   fi
@@ -64,18 +64,18 @@ fi
 # check TOKEN_FILE and connection
 
 if [ ! -r "$TOKEN_FILE" ]
-  then 
-    log "ERROR $TOKEN_FILE not readable"
-    exit 1
-  fi
+then 
+  log "ERROR $TOKEN_FILE not readable"
+  exit 1
+fi
 
 TOKEN=$(cat "$TOKEN_FILE")
 
 log "INFO checking token and connection to cluster"
 if ! curl -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
-  then 
-    log "ERROR couldn't reach the API endpoint."
-    exit 1
+then 
+  log "ERROR couldn't reach the API endpoint."
+  exit 1
 fi
 
 # first parse Configmap
