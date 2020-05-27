@@ -34,26 +34,16 @@ readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 
 # check if binaries are available
 
-if ! command -v kubectl >/dev/null
-then 
-  echo "$(date "+%FT%H:%M:%S") ERROR kubectl not found in \$PATH" 
-  exit 1
-fi
-if ! command -v yq >/dev/null
-then
-  echo "$(date "+%FT%H:%M:%S") ERROR yq not found in \$PATH" 
-  exit 1
-fi
-if ! command -v jq >/dev/null
-then
-  echo "$(date "+%FT%H:%M:%S") ERROR jq not found in \$PATH"
-  exit 1
-fi
-if ! command -v yamllint >/dev/null
-then 
-  echo "$(date "+%FT%H:%M:%S") ERROR yamllint not found in \$PATH" 
-  exit 1
-fi
+BINARIES="kubectl yq jq yamllint"
+
+for BIN in $BINARIES
+do
+  if ! command -v $BIN >/dev/null
+    then 
+    echo "$(date "+%FT%H:%M:%S") ERROR $BIN not found in \$PATH" 
+    exit 1
+  fi
+done
 
 # create DST_FOLDER
 
