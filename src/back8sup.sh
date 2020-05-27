@@ -97,7 +97,7 @@ echo "$(date "+%FT%H:%M:%S") INFO $CONFIGMAP_PATH parsed"
 
 # first get all global stuff
 
-echo "$(date "+%FT%H:%M:%S") INFO staring with global export"
+echo "$(date "+%FT%H:%M:%S") INFO starting with global export"
 for KIND in $GLOBAL 
 do
   echo "$(date "+%FT%H:%M:%S") INFO starting export for all $KIND"
