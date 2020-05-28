@@ -1,5 +1,7 @@
 # back8sup
 
+[![](https://images.microbadger.com/badges/image/adfinissygroup/back8sup.svg)](https://microbadger.com/images/adfinissygroup/back8sup "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/adfinissygroup/back8sup.svg)](https://microbadger.com/images/adfinissygroup/back8sup "Get your own version badge on microbadger.com")
+
 A simple way to backup your kubernetes resources
 
 ## Why?
