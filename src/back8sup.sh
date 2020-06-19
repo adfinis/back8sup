@@ -32,6 +32,7 @@ readonly DST_FOLDER=${DST_FOLDER:-/mnt/back8sup}
 readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 readonly BINARIES="kubectl yq jq yamllint"
+readonly NOTNAMESPACEDDIR=${NOTNAMESPACEDDIR:-not-namespaced}
 
 # define log function
 
@@ -97,6 +98,17 @@ log "INFO starting with global export"
 for KIND in $GLOBAL
 do
   log "INFO starting export for all $KIND"
+  # first check if resources is not namespaced 
+  if kubectl api-resources --namespaced=false | grep "$KIND "
+  then 
+    mkdir -p "$DST/$NOTNAMESPACEDDIR"
+    for ITEM IN $(kubectl get "$KIND" -oname)
+      do 
+        log "INFO exporting non-namespaced $ITEM into $DST/$NOTNAMESPACEDDIR"
+        mkdir -p "$DST/$NS/$KIND"
+        kubectl get "$ITEM" -n "$NS" -o "$EXPORT_FORMAT" > "$DST/$NS/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
+      done
+  else
   kubectl get ns -oname | cut -d/ -f2 | while read -r NS
   do
     mkdir -p "$DST/$NS"
@@ -108,6 +120,7 @@ do
     done
   done
   log "INFO done exporting all $KIND"
+  fi
 done
 log "INFO done with global export"
 

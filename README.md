@@ -29,6 +29,7 @@ TOKEN_FILE=${TOKEN_FILE:-/var/run/secrets/sa}
 DST_FOLDER=${DST_FOLDER:-/mnt/back8sup}
 CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
+NOTNAMESPACEDDIR=${NOTNAMESPACEDDIR:-not-namespaced}
 ```
 
 ### ConfigMap
