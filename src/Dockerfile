@@ -12,7 +12,7 @@ RUN chmod +x /back8sup.sh \
   && chmod +x /usr/local/bin/kubectl \
   && pip3 --no-cache-dir install yamllint yq \
   && mkdir -p /workdir \
-  && chgrp 0 /workdir \
+  && chgrp 0 -R /workdir \
   && chmod g=u -R /workdir
 
 WORKDIR /workdir
