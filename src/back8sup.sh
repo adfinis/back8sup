@@ -102,7 +102,7 @@ do
   if kubectl api-resources --namespaced=false | grep "$KIND "
   then 
     mkdir -p "$DST/$NOTNAMESPACEDDIR"
-    for ITEM IN $(kubectl get "$KIND" -oname)
+    for ITEM in $(kubectl get "$KIND" -oname)
       do 
         log "INFO exporting non-namespaced $ITEM into $DST/$NOTNAMESPACEDDIR"
         mkdir -p "$DST/$NS/$KIND"
