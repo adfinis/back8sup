@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.title="back8sup" \
       org.opencontainers.image.authors="Adfinis AG <https://adfinis.com>" \
       org.opencontainers.image.vendor="Adfinis" \
       org.opencontainers.image.url="https://github.com/adfinis-sygroup/back8sup" \
-      org.opencontainers.image.licenses="AGPL-3.0-or-later
+      org.opencontainers.image.licenses="AGPL-3.0-or-later"
 
 ADD back8sup.sh /
 
