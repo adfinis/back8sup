@@ -25,7 +25,7 @@
 
 # exit immediately if something fails
 
-set -e 
+set -euo pipefail
 
 # Environment variables for configuration
 
@@ -79,7 +79,7 @@ fi
 TOKEN=$(cat "$TOKEN_FILE")
 
 log "INFO checking token and connection to cluster"
-if ! curl -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
+if ! curl --fail -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
 then
   log "ERROR couldn't reach the API endpoint."
   exit 1
@@ -110,8 +110,8 @@ do
     for ITEM in $(kubectl get "$KIND" -oname)
       do 
         log "INFO exporting non-namespaced $ITEM into $DST/$NOTNAMESPACEDDIR"
-        mkdir -p "$DST/$NS/$KIND"
-        kubectl get "$ITEM" -n "$NS" -o "$EXPORT_FORMAT" > "$DST/$NS/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
+        mkdir -p "$DST/$NOTNAMESPACEDDIR/$KIND"
+        kubectl get "$ITEM" -o "$EXPORT_FORMAT" > "$DST/$NOTNAMESPACEDDIR/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
       done
   else
   kubectl get ns -oname | cut -d/ -f2 | while read -r NS
