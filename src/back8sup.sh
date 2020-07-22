@@ -23,6 +23,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 
+# exit immediately if something fails
+
+set -e 
+
 # Environment variables for configuration
 
 readonly API_ENDPOINT=${API_ENDPOINT:-https://kubernetes.local:6443}
