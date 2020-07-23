@@ -79,7 +79,7 @@ fi
 TOKEN=$(cat "$TOKEN_FILE")
 
 log "INFO checking token and connection to cluster"
-if ! curl --fail -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
+if ! curl --no-progress-meter --fail -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
 then
   log "ERROR couldn't reach the API endpoint."
   exit 1
