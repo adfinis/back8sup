@@ -23,6 +23,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 
+# exit immediately if something fails
+
+set -euo pipefail
+
 # Environment variables for configuration
 
 readonly API_ENDPOINT=${API_ENDPOINT:-https://kubernetes.local:6443}
@@ -33,6 +37,7 @@ readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 readonly BINARIES="kubectl yq jq yamllint"
 readonly NOTNAMESPACEDDIR=${NOTNAMESPACEDDIR:-not-namespaced}
+readonly EXPIRE=${EXPIRE:-30}
 
 # define log function
 
@@ -74,7 +79,7 @@ fi
 TOKEN=$(cat "$TOKEN_FILE")
 
 log "INFO checking token and connection to cluster"
-if ! curl -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
+if ! curl --no-progress-meter --fail -k "$API_ENDPOINT/version/" -H "Authorization: Bearer ${TOKEN}"
 then
   log "ERROR couldn't reach the API endpoint."
   exit 1
@@ -105,8 +110,8 @@ do
     for ITEM in $(kubectl get "$KIND" -oname)
       do 
         log "INFO exporting non-namespaced $ITEM into $DST/$NOTNAMESPACEDDIR"
-        mkdir -p "$DST/$NS/$KIND"
-        kubectl get "$ITEM" -n "$NS" -o "$EXPORT_FORMAT" > "$DST/$NS/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
+        mkdir -p "$DST/$NOTNAMESPACEDDIR/$KIND"
+        kubectl get "$ITEM" -o "$EXPORT_FORMAT" > "$DST/$NOTNAMESPACEDDIR/$KIND/$(basename "$ITEM").$EXPORT_FORMAT"
       done
   else
   kubectl get ns -oname | cut -d/ -f2 | while read -r NS
@@ -144,3 +149,6 @@ do
   log "INFO done exporting all $KIND in namespace $NS"
 done
 log "INFO done exporting namespace $NS"
+
+log "INFO remove backups older than $EXPIRE days"
+find $DST_FOLDER -mtime +$EXPIRE -type f -delete &>/dev/null
