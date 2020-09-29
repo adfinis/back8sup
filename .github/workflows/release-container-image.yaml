@@ -3,6 +3,7 @@ name: Release Container Image
 on:
   schedule:
     - cron: '3 3 * * *'
+  pull_request:
   push:
     branches: master
 
