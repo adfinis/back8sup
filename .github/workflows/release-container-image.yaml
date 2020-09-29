@@ -1,6 +1,8 @@
 name: Release Container Image
 
 on:
+  schedule:
+    - cron: '3 3 * * *'
   push:
     branches: master
 
