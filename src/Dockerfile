@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.licenses="AGPL-3.0-or-later"
 
 ADD back8sup.sh /
 
-ENV KUBECTL_VERSION=v1.17.0
+ENV KUBECTL_VERSION=v1.19.0
 
 RUN chmod +x /back8sup.sh \
   && apk add --no-cache bash jq curl py3-pip \
