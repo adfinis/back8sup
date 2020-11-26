@@ -37,7 +37,7 @@ readonly CONFIGMAP_PATH=${CONFIGMAP_PATH:-/etc/config.yaml}
 readonly EXPORT_FORMAT=${EXPORT_FORMAT:-yaml}
 readonly BINARIES="kubectl yq jq yamllint"
 readonly NOTNAMESPACEDDIR=${NOTNAMESPACEDDIR:-not-namespaced}
-readonly EXPIRE=${EXPIRE:-30}
+readonly GENERATIONS=${GENERATIONS:-30}
 
 # define log function
 
@@ -150,5 +150,5 @@ do
 done
 log "INFO done exporting namespace $NS"
 
-log "INFO remove backups older than $EXPIRE days"
-find $DST_FOLDER -mtime +$EXPIRE -type f -delete &>/dev/null
+log "INFO keep last $GENERATIONS backups and delete the rest"
+ls -t -w 1 "$DST_FOLDER/*" | tail -n +$GENERATIONS | xargs rm -f
