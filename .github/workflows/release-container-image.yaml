@@ -74,9 +74,3 @@ jobs:
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
-
-      - name: Trigger Microbadger
-        run: |
-          curl --silent -X POST $MICROBADGER_WEBHOOK  &>/dev/null
-        env:
-          MICROBADGER_WEBHOOK: ${{ secrets.MICROBADGER_WEBHOOK }}
