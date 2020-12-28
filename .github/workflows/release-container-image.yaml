@@ -53,7 +53,7 @@ jobs:
       - name: Login to GHCR
         uses: docker/login-action@v1
         with:
-          registry: ghc.rio
+          registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PAT }}
 
