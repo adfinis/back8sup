@@ -9,5 +9,3 @@ jobs:
       - name: Run shellcheck
         id: shellcheck
         uses: ludeeus/action-shellcheck@1.1.0
-        env:
-          SHELLCHECK_OPTS: -e SC2012
