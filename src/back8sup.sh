@@ -151,4 +151,5 @@ done
 log "INFO done exporting namespace $NS"
 
 log "INFO keep last $GENERATIONS backups and delete the rest"
-ls -t -w 1 "$DST_FOLDER/" | tail -n +$GENERATIONS | xargs rm -rf
+# shellcheck disable=SC2012
+ls -t -w 1 "$DST_FOLDER/" | tail -n +"$GENERATIONS" | xargs rm -rf
