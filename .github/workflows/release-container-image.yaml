@@ -25,7 +25,7 @@ jobs:
       - name: Prepare Image Metadata
         id: prep
         run: |
-          DOCKER_IMAGE=ghcr.io/adfinis-sygroup/back8sup
+          DOCKER_IMAGE=ghcr.io/adfinis/back8sup
           VERSION=noop
           if [ "${{ github.event_name }}" = "schedule" ]; then
             VERSION=nightly
